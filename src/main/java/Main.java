@@ -1,16 +1,13 @@
-import model.Task;
-import service.TaskService;
-
-import java.util.HashMap;
-import java.util.List;
+import service.StartService;
 
 public class Main {
 
 
     public static void main(String[] args) throws InterruptedException {
 
-//        printInvoiceHeader();
-        TaskService toDoApp = new TaskService();
-        toDoApp.startApp();
+        StartService service = new StartService();
+        service.startApp();
+
     }
+
 }
