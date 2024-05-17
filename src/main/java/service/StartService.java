@@ -1,10 +1,11 @@
 package service;
+
 import java.util.Scanner;
 
 public class StartService {
     private final TaskService taskService;
     private final PrintService printService;
-    public Scanner scanner;
+    Scanner scanner;
 
     public StartService() {
         taskService = new TaskService();
@@ -29,9 +30,10 @@ public class StartService {
         return key;
     }
 
+
+
     public void startApp() throws InterruptedException {
         boolean isInvalid;
-        System.out.println("test: give input");
         System.out.println("WELCOME TO MY TO-DO APP VERSION 1.0");
         Thread.sleep(1000);
         do {
@@ -56,6 +58,9 @@ public class StartService {
                             taskService.removeRecord(getKeyFromUser());
                             break;
                         case 4:
+                            taskService.updateStatus(getKeyFromUser());
+                            break;
+                        case 5:
                             System.out.println("BYE BYE");
                             isRunning = false;
                             break;

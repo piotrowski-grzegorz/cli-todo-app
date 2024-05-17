@@ -9,4 +9,10 @@ public class PrintService {
     void printSeparatingLine() {
         System.out.println("------------------------------------------------------------");
     }
+
+    void printColumnNames() {
+        printSeparatingLine();
+        System.out.printf("%-5s %-20s %-20s %-20s%n", "KEY", "NAME OF TASK", "DESCRIPTION", "STATUS");
+        printSeparatingLine();
+    }
 }
