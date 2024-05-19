@@ -1,33 +1,50 @@
 package service;
 
+import utils.IntegerAsker;
+
 import java.util.Scanner;
+
+import static java.lang.System.in;
+import static java.lang.System.out;
 
 public class StartService {
     private final TaskService taskService;
     private final PrintService printService;
+    private final IntegerAsker integerAsker;
     Scanner scanner;
 
     public StartService() {
+        integerAsker = new IntegerAsker(in,out);
         taskService = new TaskService();
         printService = new PrintService();
-        scanner = new Scanner(System.in);
+        scanner = new Scanner(in);
     }
 
     public String getTaskNameFromUser() {
+        Scanner userInput = new Scanner(in);
         System.out.println("---GIVE TASK NAME");
-        return scanner.nextLine();
+        return userInput.nextLine();
     }
 
     public String getDescriptionNameFromUser() {
+        Scanner userInput = new Scanner(in);
         System.out.println("---GIVE DESC NAME");
-        return scanner.nextLine();
+        return userInput.nextLine();
     }
 
-    public int getKeyFromUser() {
-        System.out.println("---GIVE KEY OF TASK");
-        int key = scanner.nextInt();
-        scanner.nextLine();
-        return key;
+//    public int getKeyFromUser() {
+//        Scanner userInput = new Scanner(System.in);
+//        System.out.println("---GIVE KEY OF TASK");
+//        int key = userInput.nextInt();
+//        userInput.nextLine();
+//        return key;
+//    }
+
+    public int getBoundIntegerFromUser(IntegerAsker asker) {
+        int input = asker.ask("Give a number between 1 and 10");
+        while (input < 1 || input > 10)
+            input = asker.ask("Wrong number, try again.");
+        return input;
     }
 
 
@@ -40,8 +57,8 @@ public class StartService {
             isInvalid = false;
             boolean isRunning = true;
             try {
-                printService.printMyMenu();
                 while (isRunning) {
+                    printService.printMyMenu();
                     taskService.getTable();
                     System.out.print("--CHOOSE:");
                     int input = scanner.nextInt();
@@ -52,15 +69,21 @@ public class StartService {
                             taskService.addRecord(getTaskNameFromUser(), getDescriptionNameFromUser());
                             break;
                         case 2:
-                            taskService.updateRecord(getKeyFromUser(), getTaskNameFromUser(), getDescriptionNameFromUser());
+                            taskService.updateRecord(getBoundIntegerFromUser(integerAsker), getTaskNameFromUser(), getDescriptionNameFromUser());
                             break;
                         case 3:
-                            taskService.removeRecord(getKeyFromUser());
+                            taskService.removeRecord(getBoundIntegerFromUser(integerAsker));
                             break;
                         case 4:
-                            taskService.updateStatus(getKeyFromUser());
+                            taskService.updateStatus(getBoundIntegerFromUser(integerAsker));
                             break;
                         case 5:
+                            taskService.updateDate(getBoundIntegerFromUser(integerAsker));
+                            break;
+                        case 6:
+                            taskService.updatePriority(getBoundIntegerFromUser(integerAsker));
+                            break;
+                        case 7:
                             System.out.println("BYE BYE");
                             isRunning = false;
                             break;
