@@ -3,6 +3,7 @@ package service;
 import utils.IntegerAsker;
 
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 import static java.lang.System.in;
 import static java.lang.System.out;
@@ -23,13 +24,32 @@ public class StartService {
     public String getTaskNameFromUser() {
         Scanner userInput = new Scanner(in);
         System.out.println("---GIVE TASK NAME");
-        return userInput.nextLine();
+        String input = userInput.nextLine();
+
+        while(!checkIfStringIsNotTooLong(input, 10)) {
+            System.out.println("To long name try again");
+            input = scanner.next();
+        }
+        return input;
+    }
+
+    boolean checkIfStringIsNotTooLong(String input, int maxStringLength) {
+        if(input.length() > maxStringLength) {
+            out.println("The string is too long - max " + maxStringLength + " chars");
+            return false;
+        } else return true;
     }
 
     public String getDescriptionNameFromUser() {
         Scanner userInput = new Scanner(in);
         System.out.println("---GIVE DESC NAME");
-        return userInput.nextLine();
+        String input = userInput.nextLine();
+
+        while(!checkIfStringIsNotTooLong(input,15)) {
+            System.out.println("To long name try again");
+            input = scanner.next();
+        }
+        return input;
     }
 
 //    public int getKeyFromUser() {
@@ -41,7 +61,7 @@ public class StartService {
 //    }
 
     public int getBoundIntegerFromUser(IntegerAsker asker) {
-        int input = asker.ask("Give a number between 1 and 10");
+        int input = asker.ask("Give one number from  " + taskService.DATA_BASE.keySet());
         while (input < 1 || input > 10)
             input = asker.ask("Wrong number, try again.");
         return input;
@@ -49,16 +69,23 @@ public class StartService {
 
 
 
+
+
     public void startApp() throws InterruptedException {
         boolean isInvalid;
         System.out.println("WELCOME TO MY TO-DO APP VERSION 1.0");
         Thread.sleep(1000);
+
+
+
+
         do {
             isInvalid = false;
             boolean isRunning = true;
             try {
                 while (isRunning) {
                     printService.printMyMenu();
+                    taskService.checkIfListIsEmpty();
                     taskService.getTable();
                     System.out.print("--CHOOSE:");
                     int input = scanner.nextInt();
@@ -67,6 +94,10 @@ public class StartService {
                     switch (input) {
                         case 1:
                             taskService.addRecord(getTaskNameFromUser(), getDescriptionNameFromUser());
+//                            if(getTaskNameFromUser().length() > 3) {
+//                                out.println("once again");
+//
+//                            }
                             break;
                         case 2:
                             taskService.updateRecord(getBoundIntegerFromUser(integerAsker), getTaskNameFromUser(), getDescriptionNameFromUser());
@@ -104,4 +135,6 @@ public class StartService {
         } while (isInvalid);
 
     }
+
+
 }

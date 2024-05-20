@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class TaskService {
 
-    public final HashMap<Integer, Task> db;
+    public final HashMap<Integer, Task> DATA_BASE;
     private final AtomicInteger keyGenerator;
     private final PrintService printService;
     Scanner scanner;
@@ -21,13 +21,13 @@ public class TaskService {
     public TaskService() {
         printService = new PrintService();
         scanner = new Scanner(System.in);
-        db = new HashMap<>();
+        DATA_BASE = new HashMap<>();
         keyGenerator = new AtomicInteger(1);
     }
 
     public void getTable() {
         printService.printColumnNames();
-        System.out.println(db
+        System.out.println(DATA_BASE
                 .entrySet()
                 .stream()
                 .map(entry ->
@@ -53,7 +53,7 @@ public class TaskService {
             task1.setDate(LocalDate.now());
             task1.setPriority(Priority.LOW);
             int key = generateKey();
-            db.put(key, task1);
+            DATA_BASE.put(key, task1);
 
         } catch (InputMismatchException e) {
             System.out.println("-----Something went wrong.");
@@ -62,22 +62,27 @@ public class TaskService {
     }
 
     public void removeRecord(int key) {
-        if (db.containsKey(key)) {
-            db.remove(key);
+        if (DATA_BASE.containsKey(key)) {
+            DATA_BASE.remove(key);
         } else System.out.println("-----NO KEY FOUND");
     }
 
     public void updateRecord(Integer id, String taskName, String description) {
-        if(db.containsKey(id)) {
+        if(DATA_BASE.containsKey(id)) {
             Task task = new Task(taskName, description);
-            db.put(id, task);
+            LocalDate date = DATA_BASE.get(id).getDate();
+            Priority priority = DATA_BASE.get(id).getPriority();
+            task.setDate(date);
+            task.setPriority(priority);
+            DATA_BASE.put(id, task);
+
             updateStatus(id);
 
         } else System.out.println("-----NO KEY FOUND");
     }
 
     public void updateStatus(int key) {
-            Task task = db.get(key);
+            Task task = DATA_BASE.get(key);
             switch (task.getStatus()) {
                 case TODO:
                     task.setStatus(Status.DONE);
@@ -92,7 +97,7 @@ public class TaskService {
 
         }
     public void updatePriority(int key)  {
-        Task task = db.get(key);
+        Task task = DATA_BASE.get(key);
         switch (task.getPriority()) {
             case LOW:
                 task.setPriority(Priority.HIGH);
@@ -107,7 +112,7 @@ public class TaskService {
     }
 
     public void updateDate(int key) {
-        Task task = db.get(key);
+        Task task = DATA_BASE.get(key);
         Scanner dateInput = new Scanner(System.in);
         boolean isInvalid;
         do {
@@ -126,17 +131,39 @@ public class TaskService {
             }
         } while (isInvalid);
     }
+    public Integer getFirstKeyFromDatabase() {
+        return DATA_BASE.entrySet().stream().findFirst().get().getKey();
+    }
 
      int generateKey() {
         return keyGenerator.getAndIncrement();
     }
+
+    void checkIfListIsEmpty() {
+        if (DATA_BASE.isEmpty()) {
+            System.out.println("YOUR LIST IS EMPTY ! ADD SOMETHING :)");
+        }
+    }
+
+
+
+
 //todo
     public int getBoundIntegerFromUser2(IntegerAsker asker) {
-        int input = asker.ask("Give a number between  and 10");
+        int input = asker.ask("Give a number between  and " );
         while (input < 1 || input > 10)
             input = asker.ask("Wrong number, try again.");
         return input;
     }
+
+    public boolean checkIfStringIsNotToLong(String input) {
+        return input.length() <= 11;
+    }
+
+
+
+
+
 
 
 }
