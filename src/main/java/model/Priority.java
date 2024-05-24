@@ -1,8 +1,9 @@
 package model;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public enum Priority {
-    LOW, HIGH
+    LOW, NORMAL, HIGH
 }
