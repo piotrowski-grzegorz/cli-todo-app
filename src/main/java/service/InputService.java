@@ -18,16 +18,11 @@ public class InputService {
     public Status setStatusInput() {
         System.out.print("GIVE STATUS - T FOR TODO AND D FOR DONE: ");
         String setStatusString = scanner.next();
-        Status setStatus = null;
-        switch (setStatusString) {
-            case "T":
-                setStatus = Status.TODO;
-                break;
-            case "D":
-                setStatus = Status.DONE;
-                break;
-        }
-        return setStatus;
+        return switch (setStatusString) {
+            case "T" -> Status.TODO;
+            case "D" -> Status.DONE;
+            default -> null;
+        };
     }
 
     public String setTaskNameInput() {
@@ -46,19 +41,12 @@ public class InputService {
     public Priority setPriorityInput() {
         System.out.print("GIVE PRIORITY - L FOR LOW AND H FOR HIGH: ");
         String setPriorityString = scanner.next();
-        Priority setPriority = Priority.NORMAL;
-        switch (setPriorityString) {
-            case "L":
-                setPriority = Priority.LOW;
-                System.out.println(setPriority);
-                break;
-            case "N":
-                break;
-            case "H":
-                setPriority = Priority.HIGH;
-                break;
-        }
-        return setPriority;
+        return switch (setPriorityString) {
+            case "L" -> Priority.LOW;
+            case "N" -> Priority.NORMAL;
+            case "H" -> Priority.HIGH;
+            default -> null;
+        };
     }
 
     public String setTagsInput(){
@@ -69,44 +57,45 @@ public class InputService {
     }
 
     public LocalDate setCreateDateInput() {
-        System.out.println("GIVE CREATE DATE");
-        System.out.print("YEAR: ");
-        int setYear = scanner.nextInt();
-        System.out.print("MONTH: ");
-        int setMonth = scanner.nextInt();
-        System.out.print("DAY: ");
-        int setDay = scanner.nextInt();
-        LocalDate setCreateDate = LocalDate.of(setYear,setMonth,setDay);
-        return setCreateDate;
+        System.out.print("GIVE CREATE DATE - N for now() or C for create: ");
+        String input = scanner.nextLine();
+        LocalDate setDate = LocalDate.now();
+        switch (input) {
+            case "N":
+                return setDate;
+            case "C":
+                System.out.print("YEAR FOR CREATE DATE: ");
+                int setYear = scanner.nextInt();
+                System.out.print("MONTH FOR CREATE DATE: ");
+                int setMonth = scanner.nextInt();
+                System.out.print("DAY FOR CREATE DATE: ");
+                int setDay = scanner.nextInt();
+                setDate = LocalDate.of(setYear,setMonth,setDay);
+
+        }
+        return setDate;
+
     }
 
     public LocalDate setDueDateInput() {
         System.out.println("GIVE DUE DATE");
-        System.out.print("YEAR: ");
+        System.out.print("YEAR FOR DUE DATE: ");
         int setYear = scanner.nextInt();
-        System.out.print("MONTH: ");
+        System.out.print("MONTH FOR DUE DATE: ");
         int setMonth = scanner.nextInt();
-        System.out.print("DAY: ");
+        System.out.print("DAY FOR DUE DATE: ");
         int setDay = scanner.nextInt();
-        LocalDate setDueDate = LocalDate.of(setYear,setMonth,setDay);
-        return setDueDate;
+        return LocalDate.of(setYear,setMonth,setDay);
     }
 
     public Size setSizeInput(){
         System.out.print("GIVE SIZE - S FOR SMALL, M FOR MEDIUM, B FOR BIG: ");
         String setSizeString = scanner.next();
-        Size setSize = Size.SMALL;
-        switch (setSizeString) {
-            case "S":
-                setSize = Size.SMALL;
-                break;
-            case "M":
-                setSize = Size.MEDIUM;
-                break;
-            case "B":
-                setSize = Size.BIG;
-                break;
-        }
-        return setSize;
+        return switch (setSizeString) {
+            case "S" -> Size.SMALL;
+            case "M" -> Size.MEDIUM;
+            case "B" -> Size.BIG;
+            default -> null;
+        };
     }
 }

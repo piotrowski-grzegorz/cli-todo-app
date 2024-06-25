@@ -11,7 +11,6 @@ public class StartService {
     private final TaskService taskService;
     private final PrintService printService;
     private final IntegerAsker integerAsker;
-    private final ValidationService validationService;
     private final InputService inputService;
     private boolean isRunning = true;
     Scanner scanner;
@@ -20,7 +19,6 @@ public class StartService {
         integerAsker = new IntegerAsker(in, out);
         taskService = new TaskService();
         printService = new PrintService();
-        validationService = new ValidationService();
         inputService = new InputService();
         scanner = new Scanner(in);
     }

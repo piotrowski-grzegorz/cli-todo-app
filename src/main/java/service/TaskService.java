@@ -75,6 +75,7 @@ public class TaskService {
                     .build();
 
             DATA_BASE.put(key, task);
+            printService.printSeparatingCrossLine();
 
         } catch (InputMismatchException e) {
             System.out.println("-----Something went wrong.");
@@ -116,10 +117,10 @@ public class TaskService {
         }
     }
 
-    void getAllTasksByPriority(){};
-    void getAllTasksBySize(){};
-    void getAllTasksByStatus(){};
-    void getAllTaskByDateInterval(){};
+    void getAllTasksByPriority(){}
+    void getAllTasksBySize(){}
+    void getAllTasksByStatus(){}
+    void getAllTaskByDateInterval(){}
 
      int generateKey() {
         return keyGenerator.getAndIncrement();
